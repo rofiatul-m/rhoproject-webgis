@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Home</title>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div class="left">
+            <a href="index.html">RHO PROJECT</a>
+        </div>
+        <div class="right">
+            <a href="index.html" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="map.html" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-map"></i>
+                <span>Map</span>
+            </a>
+
+            <a href="profile.html" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-user-tie"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+    </nav>
+
+
+    <!-- HOME PAGE : MAIN CONTENT -->
+    <section class="section">
+        <div class="section__container">
+            <div class="content">
+                <p class="subtitle">WELCOME TO</p>
+                <h1 class="title">
+                    <span>RHO PROJECT<br />a</span> WebGIS
+                </h1>
+                <p class="description">
+                    This website provides spatial information related to climate and disaster mitigation,
+                    including rainfall, flooding, drought, and other environmental risks.
+                </p>
+                <div class="action__btns">
+                    <button class="explore" id="explore-btn">Start Explore</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="https://pngimg.com/uploads/earth/earth_PNG16.png" alt="" />
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('explore-btn').addEventListener('click', function() {
+            window.location.href = 'map.html';
+        });
+    </script>
+
+</body>
+
+</html>
