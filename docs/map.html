@@ -22,6 +22,12 @@
             --muted: #9ca3af;
             --accent: #60a5fa;
             --chip: #1f2937;
+            --navbar-text-color: #111827;
+            /*Warna gelap untuk basemap terang*/
+        }
+
+        .dark-basemap {
+            --navbar-text-color: #e5e7eb;
         }
 
         * {
@@ -40,6 +46,30 @@
             height: 100%;
             width: 100%;
             position: relative;
+        }
+
+        /* Navbar */
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            background: transparent;
+            border-bottom: none;
+            box-shadow: none;
+        }
+
+        nav .left a {
+            font-size: 1.25rem;
+            color: var(--navbar-text-color);
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
         /* --- Panel Gabungan (Controls + Chart) - HORIZONTAL --- */
@@ -157,6 +187,7 @@
             padding: 0;
         }
 
+        /* Chart Section*/
         .chart-section {
             min-width: 300px;
             max-width: 300px;
@@ -182,6 +213,7 @@
             white-space: nowrap;
         }
 
+        /* Container untuk Network Chart (Elevasi) dan Stats */
         #network-chart-wrapper {
             display: flex;
             flex-direction: column;
@@ -228,19 +260,16 @@
             margin-top: 0;
         }
 
-        /* Sembunyikan elemen secara default saat tidak digunakan */
         .hidden {
             display: none !important;
         }
 
-        /* Mengatur Padding dan Background untuk seluruh komponen RouteDirections */
         #route-directions .route-directions-input-row,
         #route-directions .route-directions-input-row input,
         #route-directions .route-directions-input-row .geoapify-autocomplete-container {
             width: 100% !important;
         }
 
-        /* 2.1 Styling untuk semua elemen input dan area teks di Route Directions */
         #route-directions input[type="text"] {
             background: var(--panel) !important;
             color: var(--text) !important;
@@ -251,13 +280,11 @@
             height: 40px;
         }
 
-        /* 2.2 Styling untuk kontainer Autocomplete */
         #route-directions .geoapify-autocomplete-container {
             flex-grow: 1;
             width: 100%;
         }
 
-        /* 2.3 Styling tombol (Add/Remove Waypoint, Swap) */
         #route-directions button {
             background: var(--chip);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -276,24 +303,20 @@
         #route-directions button:hover {
             background: var(--accent);
             color: var(--bg);
-            /* Ubah warna ikon saat hover */
         }
 
-        /* 2.4 Styling Icon di dalam tombol (Swap, Add) */
         #route-directions svg {
             fill: currentColor;
             width: 16px;
             height: 16px;
         }
 
-        /* 2.5 Perombakan tampilan baris input (termasuk ikon start/end) */
         #route-directions .route-directions-input-row {
             padding: 0;
             gap: 8px;
             margin-bottom: 8px;
         }
 
-        /* 2.6 Styling Icon Awal Baris (Mobil/Sepeda/Pin) */
         #route-directions .route-directions-input-row>div:first-child {
             flex-shrink: 0;
             width: 24px;
@@ -304,7 +327,6 @@
             margin-right: 8px;
         }
 
-        /* 2.7 Styling panel drop-down autocomplete */
         .geoapify-autocomplete-items {
             background: var(--panel);
             border: 1px solid var(--accent);
@@ -323,7 +345,6 @@
             background: rgba(96, 165, 250, 0.2);
         }
 
-        /* 2.8 Styling tombol utama kalkulasi rute (jika ada) */
         #route-directions .route-directions-calculate-button {
             background: #34d399;
             color: var(--bg);
@@ -333,15 +354,14 @@
             border-radius: 10px;
             padding: 8px 15px;
         }
+
         #route-directions .route-directions-calculate-button:hover {
             background: #10b981;
         }
 
-        /* --- Akhir Tambahan CSS --- */
-
         .legend {
             position: absolute;
-            top: 16px;
+            top: 50px;
             left: 16px;
             background: rgba(17, 24, 39, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -357,6 +377,10 @@
         .legend>div:first-child {
             font-weight: bold;
             color: var(--text);
+        }
+
+        .maplibregl-ctrl-top-right {
+            margin-top: 50px;
         }
 
         input,
@@ -446,7 +470,6 @@
             border-color: transparent;
         }
 
-        /* Styling untuk Radio Button di Panel */
         .radio-option {
             display: flex;
             align-items: center;
@@ -467,9 +490,6 @@
             background: none;
             cursor: pointer;
         }
-
-        /* Akhir Styling Radio Button */
-
 
         /* Basemap Switcher */
         #basemapSwitcher {
@@ -528,7 +548,13 @@
     </style>
 </head>
 
-<body>
+<body class="dark-basemap">
+    <nav>
+        <div class="left">
+            <a href="index.html">RHO PROJECT</a>
+        </div>
+    </nav>
+
     <div id="map"></div>
 
     <div class="legend" id="legend">
@@ -648,7 +674,6 @@
     </div>
 
     <script>
-        // REQUIRED: Register Chart.js components for Line Chart (Elevation Profile)
         Chart.register(
             Chart.LineElement,
             Chart.LineController,
@@ -661,12 +686,12 @@
         );
 
         // =================================================================
-        // GANTI DENGAN KUNCI API GEOAPIFY ANDA
+        // KONFIGURASI
         // =================================================================
-        const yourAPIKey = "f82ea38cb77543d59c597faaa263e714"; // Ganti ini!
+        const yourAPIKey = "f82ea38cb77543d59c597faaa263e714";
 
-        const initialCenter = [110.3649, -7.8016]; // Yogyakarta (lng, lat)
-        const initialZoom = 12;
+        const initialCenter = [116.10255, -8.40401]; // Lombok Utara (lng, lat)
+        const initialZoom = 10;
 
         const RANGES_PRESETS = {
             time: [5, 10, 15, 20, 30],
@@ -682,11 +707,9 @@
             analysisToggle: document.getElementById("analysisToggle"),
             chartSection: document.getElementById("chart-section"),
             isolineControls: document.getElementById("isoline-controls"),
-            // networkControls: document.getElementById("network-controls"), // Hapus karena div sudah dihapus
-            routeDirectionsWrapper: document.getElementById("route-directions-wrapper"), // Tambah wrapper baru
+            routeDirectionsWrapper: document.getElementById("route-directions-wrapper"),
             analysisTypeInputs: document.querySelectorAll('input[name="analysisType"]'),
             footerNote: document.getElementById('footer-note'),
-            // ADDED: New elements for Route Analysis (routeStats DIPINDAHKAN)
             routeDirectionsContainer: document.getElementById('route-directions'),
             routeStats: document.getElementById('route-stats'),
             isolineChartWrapper: document.getElementById('isoline-chart-wrapper'),
@@ -699,11 +722,9 @@
         let shelterChart = null;
         let currentIsolineData = null;
         let activeAnalysisType = 'isoline';
-
-        // ADDED: State global baru untuk Network/Route Analysis
         let routeChartInstance;
         let routeWaypoints = [];
-        let routeMarkers = []; // Markers untuk Route
+        let routeMarkers = []
 
         const isolineData = {
             lat: initialCenter[1],
@@ -723,30 +744,53 @@
         els.routeDirectionsWrapper.style.display = 'none';
 
         // =================================================================
-        // DATA SHELTER FIKTIF
+        // DATA SHELTER
         // =================================================================
-        const shelterPoints = turf.featureCollection([
-            turf.point([110.3550, -7.8050], { name: "Shelter A" }),
-            turf.point([110.3700, -7.7900], { name: "Shelter B" }),
-            turf.point([110.3850, -7.8100], { name: "Shelter C" }),
-            turf.point([110.3400, -7.8150], { name: "Shelter D" }),
-            turf.point([110.3600, -7.7950], { name: "Shelter E" }),
-            turf.point([110.3900, -7.7800], { name: "Shelter F" }),
-            turf.point([110.3500, -7.8200], { name: "Shelter G" }),
-            turf.point([110.3750, -7.8250], { name: "Shelter H" }),
-            turf.point([110.3650, -7.7700], { name: "Shelter I" }),
-            turf.point([110.3800, -7.7750], { name: "Shelter J" }),
-        ]);
+        const SHELTER_DATA_URL = 'https://geoserver.mapid.io/layers_new/get_layer?api_key=d394dc425f0e41008a52ef3923d68925&layer_id=691ddd753afc1f9f72436cc3&project_id=691d3f2f65f912e9a2d92a8d';
+
+        let shelterPoints = turf.featureCollection([]); 
+
+        async function loadShelterData() {
+            try {
+                const response = await fetch(SHELTER_DATA_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                shelterPoints = data;
+                console.log("Data shelter berhasil dimuat:", shelterPoints.features.length, "titik.");
+
+                if (typeof map !== 'undefined' && map.loaded()) {
+                    const source = map.getSource('shelter-points-source');
+                    if (source) {
+                        source.setData(shelterPoints);
+                    }
+                }
+
+            } catch (error) {
+                console.error("Gagal memuat data shelter dari URL:", error);
+            }
+        }
+
+        loadShelterData();
 
         // Map Setup
         const basemaps = {
             "Basic": `https://maps.geoapify.com/v1/styles/klokantech-basic/style.json?apiKey=${yourAPIKey}`,
-            "Dark": `https://maps.geoapify.com/v1/styles/dark-matter-dark-purple/style.json?apiKey=${yourAPIKey}`,
+            "Dark": `https://maps.geoapify.com/v1/styles/dark-matter-purple-roads/style.json?apiKey=${yourAPIKey}`,
             "3D": `https://maps.geoapify.com/v1/styles/maptiler-3d/style.json?apiKey=${yourAPIKey}`,
         };
 
         let activeBasemap = "Dark";
         const defaultStyle = basemaps[activeBasemap];
+
+        // --- Initial Navbar Color Adjustment ---
+        if (activeBasemap === "Dark") {
+            document.body.classList.add("dark-basemap");
+        } else {
+            document.body.classList.remove("dark-basemap");
+        } // --- Initial Navbar Color Adjustment ---
 
         const map = new maplibregl.Map({
             container: "map",
@@ -762,7 +806,7 @@
             showAccuracyCircle: true
         }), "top-right");
 
-        // Center marker (Origin untuk Isoline)
+        // Center marker (Isoline)
         const markerEl = document.createElement("div");
         markerEl.style.cssText = "width:14px;height:14px;border-radius:50%;background:#60a5fa;border:2px solid white;box-shadow:0 0 0 2px rgba(96,165,250,.35)";
         const centerMarker = new maplibregl.Marker({ element: markerEl, draggable: true })
@@ -876,13 +920,10 @@
             document.getElementById('duration').textContent = formatDuration(time);
             document.getElementById('elevation-gain').textContent = formatElevation(elevationStats.gain);
             document.getElementById('elevation-loss').textContent = formatElevation(elevationStats.loss);
-
-            // TIDAK PERLU routeStats.classList.remove('hidden') karena parentnya yang dikontrol
             els.networkChartWrapper.classList.remove('hidden');
         }
 
         function clearRouteStatsAndChart() {
-            // Sembunyikan container utama
             els.networkChartWrapper.classList.add('hidden');
             destroyRouteChart();
 
@@ -911,7 +952,6 @@
                 }]
             };
 
-            // Mengambil warna teks dari CSS untuk Chart.js
             const cssTextColor = (getComputedStyle(document.documentElement).getPropertyValue('--text') || '#e5e7eb').trim();
             const cssMutedColor = (getComputedStyle(document.documentElement).getPropertyValue('--muted') || '#9ca3af').trim();
 
@@ -1024,7 +1064,6 @@
                 map.getSource('network-route-source').setData(geoJsonData);
             }
 
-            // Adjust map view
             if (routeFeature && routeFeature.geometry && routeFeature.geometry.coordinates) {
                 const coordinates = routeFeature.geometry.coordinates;
                 const bounds = new maplibregl.LngLatBounds();
@@ -1052,7 +1091,7 @@
                 map.fitBounds(bounds, {
                     padding: {
                         top: 50,
-                        bottom: 250, // Extra space for combined panel
+                        bottom: 250,
                         left: 50,
                         right: 50
                     },
@@ -1077,7 +1116,6 @@
 
             routeWaypoints.forEach((waypoint, index) => {
                 const marker = new maplibregl.Marker({
-                    // Start: green (#34d399), End: red (#ef4444), Stopover: amber (#f59e0b)
                     color: index === 0 ? '#34d399' : (index === routeWaypoints.length - 1 ? '#ef4444' : '#f59e0b')
                 })
                     .setLngLat([waypoint[0], waypoint[1]])
@@ -1132,13 +1170,13 @@
         });
 
         // =================================================================
-        // Map Click Listener (Revisi)
+        // Map Click Listener
         // =================================================================
         map.on("click", (e) => {
             const { lng, lat } = e.lngLat;
 
             if (activeAnalysisType === 'network' && analysisActive) {
-                // Tambahkan waypoint jika di mode Network Analysis
+                // Tambahkan waypoint (Network Analysis)
                 routeDirections.addLocation(lat, lng);
             } else if (activeAnalysisType === 'isoline' && analysisActive) {
                 // Logic Isoline
@@ -1150,14 +1188,14 @@
         });
 
         // =================================================================
-        // Fungsi untuk mengalihkan jenis analisis (Revisi)
+        // Fungsi untuk switch analisis
         // =================================================================
         function switchAnalysisType(type) {
             activeAnalysisType = type;
 
             if (type === 'isoline') {
                 els.isolineControls.style.display = 'flex';
-                els.routeDirectionsWrapper.style.display = 'none'; // Perubahan: Kontrol rute disembunyikan
+                els.routeDirectionsWrapper.style.display = 'none';
                 els.footerNote.textContent = "Tip: click on the map to set a new center point.";
 
                 // Sembunyikan chart network, tampilkan chart isoline (jika aktif)
@@ -1215,7 +1253,7 @@
             });
         });
 
-        // ===== Range toggles, Mode, Type Listeners (Kode sudah ada) =====
+        // ===== Range toggles, Mode, Type Listeners =====
         function renderRangeToggles() {
             const type = els.type.value;
             const values = RANGES_PRESETS[type];
@@ -1375,20 +1413,17 @@
         }
 
         // =================================================================
-        // ADDED: Fungsi untuk Legenda Rute
+        // Fungsi untuk Legenda Rute
         // =================================================================
         function renderRouteLegendItems(routeActive) {
-            // Route legend hanya tampil jika analisis rute aktif
-            if (!routeActive) return;
+            if (!routeActive) return; // Route legend hanya tampil jika analisis rute aktif
 
-            // Warna rute utama sesuai dengan 'line-color' di network-route-layer
             const routeColor = '#60a5fa';
 
-            // Tambahkan chip untuk Rute Utama
             const routeChip = addLegendItem('Route', routeColor, false);
             routeChip.dataset.layerId = 'network-route-layer';
 
-            // Tambahkan chip untuk Marker Rute (Start, Stopover, End)
+            // Marker Rute (Start, Stopover, End)
             addLegendItem('Start Point', '#34d399', false);
             addLegendItem('Stopover', '#f59e0b', false);
             addLegendItem('End Point', '#ef4444', false);
@@ -1419,7 +1454,7 @@
         }
 
         // =================================================================
-        // ANALISIS SHELTER (Kode sudah ada)
+        // ANALISIS SHELTER 
         // =================================================================
         function analyzeShelters(isolineGeoJSON, isolineColors) {
             const results = {};
@@ -1488,7 +1523,7 @@
 
 
         // =================================================================
-        // UPDATE SHELTER LAYER (Kode sudah ada)
+        // UPDATE SHELTER LAYER
         // =================================================================
         function updateShelterMapLayer(reachableShelters) {
             const srcId = 'reachable-shelters-src';
@@ -1515,7 +1550,7 @@
             });
         }
 
-        // === Toggle Combined Panel (Kode sudah ada) ===
+        // === Toggle Combined Panel ===
         const combinedPanel = document.getElementById("combined-panel");
         const panelContent = document.getElementById("panel-content");
         const panelToggle = document.getElementById("panel-toggle");
@@ -1532,13 +1567,12 @@
             }
         });
 
-        // Toggle Analysis logic (Revisi)
+        // Toggle Analysis logic
         els.analysisToggle.addEventListener("click", () => {
             analysisActive = !analysisActive;
             els.analysisToggle.setAttribute("aria-pressed", analysisActive ? "true" : "false");
 
             if (analysisActive) {
-                // Legenda akan diupdate di switchAnalysisType
                 switchAnalysisType(activeAnalysisType);
                 if (activeAnalysisType === 'isoline') centerMarker.addTo(map);
             } else {
@@ -1546,7 +1580,7 @@
                 els.chartSection.style.display = "none";
                 clearIsolines();
                 clearRouteVisualization();
-                clearRouteMarkers(); // Pastikan markers rute hilang
+                clearRouteMarkers();
                 // els.routeDirectionsWrapper.style.display = 'none'; // Tetap biarkan hidden/flex sesuai switchAnalysisType
 
                 // Reset radio button ke Isoline
@@ -1562,9 +1596,8 @@
             }
         });
 
-
         // =================================================================
-        // UPDATE CHART (Kode sudah ada)
+        // UPDATE CHART
         // =================================================================
         function updateChart(data, colors) {
             const ranges = Object.keys(data);
@@ -1622,7 +1655,7 @@
         }
 
         // =================================================================
-        // getIsoline (Kode sudah ada)
+        // getIsoline
         // =================================================================
         async function getIsoline() {
             if (!analysisActive || activeAnalysisType !== 'isoline') {
@@ -1682,7 +1715,6 @@
                     if (map.getLayer(fillId)) map.removeLayer(fillId);
                     if (map.getLayer(lineId)) map.removeLayer(lineId);
 
-                    // Tambahkan layer fill di bawah layer shelters
                     map.addLayer({
                         id: fillId,
                         type: "fill",
@@ -1741,7 +1773,7 @@
             }
         }
 
-        // ADDED: Route Layer Logic
+        // Route Layer Logic
         function addRouteLayer() {
             if (!map.getSource('network-route-source')) {
                 map.addSource('network-route-source', {
@@ -1768,13 +1800,13 @@
 
         map.once("load", () => {
             ensureShelterLayers();
-            addRouteLayer(); // Pastikan layer rute ada, meski datanya kosong
+            addRouteLayer();
             renderBaseLegendItems(false);
             updateShelterLayerVisibility();
         });
 
 
-        // Basemap switcher setup (Kode sudah ada)
+        // Basemap switcher setup
         const switcherContainer = document.getElementById("basemapSwitcher");
         const activeLabel = document.getElementById("activeBasemap");
         const optionsContainer = document.getElementById("optionsContainer");
@@ -1788,6 +1820,14 @@
                     activeBasemap = name;
                     activeLabel.textContent = name;
                     map.setStyle(basemaps[name]);
+
+                    // ---Navbar Color Adjustment ---
+                    const isDark = name === "Dark";
+                    if (isDark) {
+                        document.body.classList.add("dark-basemap");
+                    } else {
+                        document.body.classList.remove("dark-basemap");
+                    } // ---Navbar Color Adjustment ---
 
                     map.once("styledata", () => {
                         ensureShelterLayers();
