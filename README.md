@@ -13,7 +13,7 @@
 
 ## 🔗 Akses Cepat (Live Demo)
 
-[![Lihat Demo Langsung](https://img.shields.io/badge/Akses%20Peta%20Langsung-RHO--PROJECT-blue?style=for-the-badge&logo=maplibre)](https://rofiatul-m.github.io/rhoproject-webgis/)
+[![Lihat Demo Langsung](https://img.shields.io/badge/Akses%20Peta%20Langsung-RHO--PROJECT-blue?style=for-the-badge&logo=maplibre)](https://rofiatul-m.github.io/rhoproject-webgis/map.html)
 
 ## 🛠️ Stack & Dependencies
 
